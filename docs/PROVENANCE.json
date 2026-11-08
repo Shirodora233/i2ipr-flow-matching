@@ -1,0 +1,23 @@
+{
+  "status": "local_review_copy_not_published",
+  "original_files_sha256": {
+    "full_fm_core.py": "d8adac2a74f06479812458a08fb9b04e86e671a28dea27bc89fd335332adc624",
+    "curriculum_train_pair.py": "bc5375323d9d82020a39f561ba32f12e4fa75e0c304ff574d05a1497fa9a9bcd",
+    "independent_test_evaluate.py": "5189647fc9ccee3e3819dcb9a71d75afb388b78955461f61dd50f1c8a19a2f8b",
+    "phase_metrics.py": "d86c90259550ff88538d68ad2490c02d9c1c345e585c8458f5d87dea5c27ee78"
+  },
+  "release_files_sha256": {
+    "full_fm_core.py": "2a75b5ebee2c833c30352036da78c280ad123f618b7cc32e0beff4737df426bc",
+    "curriculum_train_pair.py": "bc5375323d9d82020a39f561ba32f12e4fa75e0c304ff574d05a1497fa9a9bcd",
+    "independent_test_evaluate.py": "0b6e439bdadc31fbb5681c465b67366229543a720f1b44c5374ac3eeb0fd9e0c",
+    "phase_metrics.py": "d86c90259550ff88538d68ad2490c02d9c1c345e585c8458f5d87dea5c27ee78"
+  },
+  "modifications": {
+    "full_fm_core.py": "Only replaces environment-specific imports with external upstream adapter; class and time/noise function AST unchanged",
+    "curriculum_train_pair.py": "Byte-identical original trainer; config hashes and external data must match this copy",
+    "independent_test_evaluate.py": "Only replaces environment-specific imports; original fixed256 evaluation protocol and artifact writes retained",
+    "phase_metrics.py": "Byte-identical"
+  },
+  "upstream_code_vendored": false,
+  "data_weights_logs_or_private_manifests_included": false
+}

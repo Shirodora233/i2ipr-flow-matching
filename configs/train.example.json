@@ -1,0 +1,32 @@
+{
+  "status": "frozen_curriculum",
+  "T": 32,
+  "bridge_sigma": 0.011764705882352941,
+  "training_dc_steps": 5,
+  "effective_batch": 4,
+  "microbatch": 4,
+  "updates": 30000,
+  "warmup_updates": 625,
+  "peak_lr": 3e-05,
+  "validation_interval": 1000,
+  "checkpoint_interval": 500,
+  "minimum_training_sources": 914,
+  "minimum_validation_sources": 49,
+  "dc_precision": "float64",
+  "cpu_cache_bytes": 34359738368,
+  "milestone_updates": [
+    1000,
+    5000,
+    10000,
+    20000,
+    30000
+  ],
+  "max_run_seconds": 25200,
+  "physics_gradient_audit_passed": false,
+  "manifest_sha256": "REPLACE_WITH_LOCAL_MANIFEST_SHA256",
+  "fixed_validation_identity_sha256": "REPLACE_WITH_LOCAL_VALIDATION_IDENTITY_SHA256",
+  "code_sha256": {
+    "full_fm_core.py": "2a75b5ebee2c833c30352036da78c280ad123f618b7cc32e0beff4737df426bc",
+    "curriculum_train_pair.py": "bc5375323d9d82020a39f561ba32f12e4fa75e0c304ff574d05a1497fa9a9bcd"
+  }
+}

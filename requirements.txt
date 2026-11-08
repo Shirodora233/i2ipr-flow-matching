@@ -1,0 +1,10 @@
+# Python 3.10+; install the appropriate CUDA-enabled torch build separately.
+# torch version was not verified in this Windows preflight; no exact lock claimed.
+torch>=2.1,<3
+numpy>=1.24,<2
+diffusers==0.30.3
+huggingface-hub==0.24.7
+safetensors==0.4.5
+Pillow>=9,<12
+einops>=0.7,<1
+tqdm>=4.66,<5
