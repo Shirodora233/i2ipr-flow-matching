@@ -1,15 +1,15 @@
-# �����붳��Э��ӿ�
+# 数据与冻结协议接口
 
-���ṩ��ʵ���ݡ��������ݡ�ԭͼURL��ѵ�������Ȩ�ء�
+不提供真实数据、作者身份、原图URL、训练缓存或权重。
 
-ѵ��manifest��������ѵ��������ж��ԣ�statusΪfrozen_after_license_hash_group_dedup_audit��audit_passedΪtrue��ÿ��record��source_id��split��source_group��path��sha256��license_verified��train��val��source_group�����ཻ��������ȥ�ر�Ǳ�������ʵ���֧�֣����ܽ����ĵ��������֤����
+训练manifest必须满足训练入口已有断言：status为frozen_after_license_hash_group_dedup_audit，audit_passed为true。每条record含source_id、split、source_group、path、sha256、license_verified。train和val的source_group不得相交；许可与去重标记必须有真实审计支持，不能将此文档当作审计证明。
 
-ÿ��pathָ����ű���torch���棬ʹ��weights_only=True��ȡ������target��gt��hio��amp��support��split�������ڻ����о���������ά��target/gtΪ[1,1,256,256]��hioΪ[1,10,256,256]��amp/supportΪ[1,1,512,512]��ͼ��ͷ���ʹ�ù�һ����λ������ҶԼ��Ϊortho��2��supportΪ����֧�š�target��Ϊѵ���ල����ƥ���ǩ��gt�������ۡ�hio��amp��������ͬһ�κ���۲⡣�������������������ͬһ���������
+每个path指向可信本地torch缓存，使用weights_only=True读取；包含target、gt、hio、amp、support和split。张量在缓存中均保留批次维：target/gt为[1,1,256,256]，hio为[1,10,256,256]，amp/support为[1,1,512,512]。图像和幅度使用归一化单位；傅里叶约定为ortho除2。support为中心支撑。target可为训练监督歧义匹配标签；gt用于评价。hio和amp必须来自同一次含噪观测。桥噪声与测量噪声不是同一个随机量。
 
-manifest_sha256���嵥�ļ�ʵ���ֽڹ�ϣ���̶���֤����ժҪ�ɰ��嵥˳���(source_id,sha256)Ԫ���б�ͨ������JSON�������SHA256��ѵ������������к����Լ����ļ���core�ļ���ϣ���������core����仯�������ļ���ϣ�ı䣬����ֱ��ʹ�þ����á�
+manifest_sha256是清单文件实际字节哈希。固定验证身份摘要由按清单顺序的(source_id,sha256)元组列表通过紧凑JSON编码后求SHA256。训练入口在配置中核验自己的文件和core文件哈希；整理后的core导入变化导致其文件哈希改变，不能直接使用旧配置。
 
-�ڶ��׶ι���transitionҪ���ı۹�ͬ���5000�߽硢ԭѵ����Դ�������ϣ�������Ӿ��嵥�����嵥�Ĺ�ϣ��ϵ���ı۱߽�����ϣ�������������Ż�����RNG״̬��
+第二阶段公共transition要求四臂共同完成5000边界、原训练来源及缓存哈希保留、从旧清单到新清单的哈希关系、四臂边界检查点哈希，并保留完整优化器与RNG状态。
 
-ԭ�������Ҫ��256���̶���Դ��protocol��training lock��������ͻ��������ʵ�����ļ��������ϣ�����ð���config_sha256��core_sha256��HIO_controls.extra_iterations��limitations��ѵ��lock����stage2_manifest_sha256��8��best/last�����path��sha256��step������manifest��records��initializer_failures��record����initializer_seconds��common_initializer_failure�����status����Ϊfixed256_source_GT_noise_and_target_audit_passed��manifest��ϣһ�¡�������ͨ������schema��Ҳ����һ���ϴ���������ȫ���о�����ʾ�ű���
+原评价入口要求256个固定来源；protocol、training lock、各检查点和缓存均需真实本地文件及相符哈希。配置包括config_sha256、core_sha256、HIO_controls.extra_iterations和limitations。训练lock包含stage2_manifest_sha256及8个best/last检查点的path、sha256、step。测试manifest含records和initializer_failures；record还含initializer_seconds、common_initializer_failure。审计status必须为fixed256_source_GT_noise_and_target_audit_passed且manifest哈希一致。它不是通用数据schema，也不是一次上传即可重现全部研究的演示脚本。
 
-��Щ�����嵥�����ݡ����桢������¼�������������Ŀ¼�������ؽ��о���������ȡ����Ȩ���ݲ������Լ������֤�ݣ���ʹ�ò�������ѡͼ��ѡ���á�
+这些具体清单与身份、缓存、锁定记录均不纳入待发布目录；将来重建研究必须重新取得授权数据并生成自己的审计证据，不使用测试质量选图或选配置。

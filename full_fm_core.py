@@ -24,7 +24,7 @@ class FullConditionalSolver(nn.Module):
  def training_loss(self,batch,t,epsilon):
   y=batch['target'].float();h=batch['hio'].float();m=h.mean(1,keepdim=True);z0=m+self.bridge_sigma*epsilon;tau=t.float().view(-1,1,1,1)/self.T;x=tau*z0+(1-tau)*y
   D,v=self.field(x,h,t);post=self.dc(D,batch['amp'],batch['support'],t)
-  if self.mode=='fm':primary=(v-(y-z0)).square().mean() # TRUE velocity MSE; no tau2
+  if self.mode=='fm':primary=(v-(y-z0)).square().mean() # TRUE velocity MSE; no tau²
   else:primary=(D-y).square().mean()
   physical=(post-y).square().mean();total=.5*(primary+physical)*255**2
   return total,dict(primary=float(primary.detach()),post_dc=float(physical.detach()),endpoint_mse=float((D-y).square().mean().detach()),velocity_mse=float((v-(y-z0)).square().mean().detach()))
